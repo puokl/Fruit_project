@@ -16,7 +16,6 @@ db.query(
   }
 );
 
-// Add more fruits to the database
 const addFruit = async (req, res) => {
   const { name, color } = req.body;
 
@@ -36,7 +35,6 @@ const addFruit = async (req, res) => {
   }
 };
 
-//
 const getAllFruits = async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM fruits");

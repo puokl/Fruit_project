@@ -1,7 +1,7 @@
 const express = require("express");
 const db = require("./db");
 const app = express();
-// const controller = require("./controller/controller");
+
 const {
   deleteFruit,
   getAllFruits,
@@ -10,7 +10,6 @@ const {
   updateFruit,
 } = require("./controller/fruitsController");
 
-// Middleware to parse JSON request bodies
 app.use(express.json());
 
 app.post("/fruits", addFruit);
