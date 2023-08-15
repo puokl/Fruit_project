@@ -37,7 +37,7 @@ const addFruit = async (req, res) => {
 
 const getAllFruits = async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM fruits");
+    const result = await db.query("SELECT * FROM fruits ORDER BY id ASC");
     res.status(200).json(result.rows);
   } catch (err) {
     console.error("Error retrieving fruits:", err.message);
