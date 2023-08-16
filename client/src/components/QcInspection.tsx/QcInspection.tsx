@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   Box,
@@ -10,6 +11,7 @@ import {
   NumberInput,
   NumberInputField,
 } from "@chakra-ui/react";
+import axios from "axios";
 
 type FormValues = {
   pallet_number: string;
@@ -62,8 +64,22 @@ const formControls = [
     required: true,
   },
   { label: "Packing Date", name: "packing_date", type: "date" },
+  { label: "Peduncular Mold", name: "peduncular_mold", type: "number" },
   { label: "Decay", name: "decay", type: "number" },
-  // ... add other fields ...
+  { label: "Soft", name: "soft", type: "number" },
+  { label: "Dehydrated", name: "dehydrated", type: "number" },
+  { label: "Cold Damage", name: "cold_damage", type: "number" },
+  { label: "Bruises", name: "bruises", type: "number" },
+  { label: "Open Injury", name: "open_injury", type: "number" },
+  { label: "Scissor Damage", name: "scissor_damage", type: "number" },
+  {
+    label: "russet_greater_than_4_cm",
+    name: "russet_greater_than_4_cm",
+    type: "number",
+  },
+  { label: "Insect Damage", name: "insect_damage", type: "number" },
+  { label: "sunburn", name: "sunburn", type: "number" },
+  { label: "deformed", name: "deformed", type: "number" },
   {
     label: "Inspected Boxes",
     name: "inspected_boxes",
@@ -72,14 +88,21 @@ const formControls = [
   },
 ];
 
-function QcInspection() {
+const QcInspection: React.FC = () => {
+  // function QcInspection() {
+
+  const [message, setMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  console.log("isLoading", isLoading);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     data.box_net_weight_g = parseAndCheckNaN(data.box_net_weight_g);
     data.grw_boxes_per_pallet = parseAndCheckNaN(data.grw_boxes_per_pallet);
     data.total_boxes_per_pallet = parseAndCheckNaN(data.total_boxes_per_pallet);
@@ -101,6 +124,19 @@ function QcInspection() {
 
     // Handle form submission here
     console.log(data);
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/api/qcinspection`,
+        data
+      );
+      setMessage("Inspection added successfully.");
+    } catch (error: any) {
+      console.error("Error:", error);
+      console.log("errors", errors);
+      setMessage("Failed to add inspection.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -133,8 +169,9 @@ function QcInspection() {
 
         <Button type="submit">Submit</Button>
       </form>
+      {message && <p>{message}</p>}
     </Box>
   );
-}
+};
 
 export default QcInspection;
