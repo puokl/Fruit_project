@@ -2,19 +2,16 @@ import { Outlet } from "react-router-dom";
 import {
   Box,
   Flex,
-  Text,
   Button,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
-  Center,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
-interface Props {
-  children: React.ReactNode;
-}
+// interface Props {
+//   children: React.ReactNode;
+// }
 
 export default function Layout() {
   const { colorMode, toggleColorMode } = useColorMode();

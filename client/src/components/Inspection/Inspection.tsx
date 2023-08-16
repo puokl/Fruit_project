@@ -53,7 +53,7 @@ const PreInspectionForm = () => {
           />
           {errors["InspectionDate"] && (
             <FormErrorMessage>
-              {errors["InspectionDate"].message}
+              {errors && errors["InspectionDate"].message}
             </FormErrorMessage>
           )}
         </FormControl>
@@ -65,7 +65,9 @@ const PreInspectionForm = () => {
             id="containerNo"
             {...register("ContainerNo", { required: "Required" })}
           />
-          <FormErrorMessage>{errors["ContainerNo"]?.message}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors && errors["ContainerNo"]?.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl>
@@ -75,7 +77,9 @@ const PreInspectionForm = () => {
             id="exporter"
             {...register("Exporter", { required: "Required" })}
           />
-          <FormErrorMessage>{errors["Exporter"]?.message}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors && errors["Exporter"]?.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl>
@@ -85,7 +89,9 @@ const PreInspectionForm = () => {
             id="importer"
             {...register("Importer", { required: "Required" })}
           />
-          <FormErrorMessage>{errors["Importer"]?.message}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors && errors["Importer"]?.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl>
