@@ -26,7 +26,10 @@ const PreInspectionForm = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await axios.post("/api/preinspection", data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/api/users`,
+        data
+      );
 
       if (response.status === 200) {
         console.log("Table created successfully");
@@ -55,7 +58,7 @@ const PreInspectionForm = () => {
           )}
         </FormControl>
 
-        <FormControl isInvalid={errors["ContainerNo"]}>
+        <FormControl>
           <FormLabel htmlFor="containerNo">Container No.</FormLabel>
           <Input
             type="text"
@@ -65,7 +68,7 @@ const PreInspectionForm = () => {
           <FormErrorMessage>{errors["ContainerNo"]?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errors["Exporter"]}>
+        <FormControl>
           <FormLabel htmlFor="exporter">Exporter</FormLabel>
           <Input
             type="text"
@@ -75,7 +78,7 @@ const PreInspectionForm = () => {
           <FormErrorMessage>{errors["Exporter"]?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={errors["Importer"]}>
+        <FormControl>
           <FormLabel htmlFor="importer">Importer</FormLabel>
           <Input
             type="text"

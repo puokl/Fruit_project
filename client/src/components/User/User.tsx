@@ -15,7 +15,7 @@ const CreateUser: React.FC = () => {
     fruit: string;
   }) => {
     try {
-      await axios.post("http://localhost:5000/api/users", {
+      await axios.post(`${import.meta.env.VITE_SERVER_ENDPOINT}/api/users`, {
         inspector_name: data.inspector_name,
         fruit: data.fruit,
       });

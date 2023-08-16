@@ -1,14 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -32,6 +23,10 @@ const PreInspection: React.FC = () => {
     Record<string, string>
   >({});
   const [isLoading, setIsLoading] = useState(false);
+
+  //SECTION -
+  console.log("validationErrors", validationErrors);
+  console.log("isLoading", isLoading);
 
   const {
     register,
@@ -66,10 +61,13 @@ const PreInspection: React.FC = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/preinspection", data);
+      await axios.post(
+        `${import.meta.env.VITE_SERVER_ENDPOINT}/api/preinspection`,
+        data
+      );
       setMessage("Inspection added successfully.");
       setValidationErrors({});
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Error:", error);
       console.log("errors", errors);
       setMessage("Failed to add inspection.");
