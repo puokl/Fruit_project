@@ -10,6 +10,7 @@ import Layout from "./components/Layout";
 
 import PreInspection from "./components/PreInspection.tsx/PreInspection";
 import QcInspection from "./components/QcInspection.tsx/QcInspection";
+import Tableau from "./pages/Tableau";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="fruit" element={<CreateFruit />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route path="test" element={<Test />} />
+        <Route path="tableau" element={<Tableau />} />
 
         {/* protected routes */}
         {/* <Route path="user" element={<User />} /> */}
