@@ -1,11 +1,10 @@
-import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 // @ts-ignore
 import tableau from "tableau-api";
 
 type TableauProps = {};
 
-const Tableau: React.FC<TableauProps> = () => {
+const Tab: React.FC<TableauProps> = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -20,19 +19,26 @@ const Tableau: React.FC<TableauProps> = () => {
         vizElement.setAttribute("id", "tableau-viz");
         vizElement.setAttribute(
           "src",
-          "https://eu-west-1a.online.tableau.com/t/fruitqc/views/QCFruits2/A"
+          "https://eu-west-1a.online.tableau.com/t/fruitqc/views/QC_Dash/Dashboard1"
         );
         vizElement.setAttribute("hide-tabs", "");
         vizElement.setAttribute("toolbar", "bottom");
 
-        vizContainer.appendChild(vizElement);
-
         // Set width and height using JavaScript
-        vizElement.style.width = "100vw";
-        vizElement.style.height = "100vh";
+        vizElement.style.width = "1000px";
+        vizElement.style.height = "840px";
 
         // Initialize the Tableau Viz
-        tableau.Viz.refreshAsync();
+        const tableauAuth = tableau.auth.userPasswordAuth(
+          import.meta.env.VITE_TABLEAU_USERNAME,
+          import.meta.env.VITE_TABLEAU_PASSWORD
+        );
+        console.log("tableauAuth", tableauAuth);
+        tableauAuth.submit().then(() => {
+          tableau.Viz.refreshAsync();
+        });
+
+        vizContainer.appendChild(vizElement);
       }
     };
 
@@ -46,9 +52,10 @@ const Tableau: React.FC<TableauProps> = () => {
   }, []);
 
   return (
-    <Box>
-      <Box id="tableau-viz-container" w="100vw" h="90vh"></Box>
-    </Box>
+    <div>
+      <h1>hi from tab</h1>
+      <div id="tableau-viz-container"></div>
+    </div>
   );
 };
-export default Tableau;
+export default Tab;

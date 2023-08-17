@@ -7,10 +7,12 @@ import Missing from "./pages/Missign";
 import Test from "./pages/Test";
 import Unauthorized from "./pages/Unathorized";
 import Layout from "./components/Layout";
-
-import PreInspection from "./components/PreInspection.tsx/PreInspection";
-import QcInspection from "./components/QcInspection.tsx/QcInspection";
+import PreInspection from "./components/PreInspection/PreInspection";
+import QcInspection from "./components/QcInspection/QcInspection";
 import Tableau from "./pages/Tableau";
+import Tab from "./pages/Tab";
+import Inspect from "./pages/Inspect";
+import GetAll from "./pages/GetAll";
 
 function App() {
   return (
@@ -20,12 +22,15 @@ function App() {
 
         {/* public routes */}
         <Route path="user" element={<CreateUser />} />
+        <Route path="inspection" element={<Inspect />} />
         <Route path="preinspection" element={<PreInspection />} />
         <Route path="qcinspection" element={<QcInspection />} />
         <Route path="fruit" element={<CreateFruit />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route path="test" element={<Test />} />
         <Route path="tableau" element={<Tableau />} />
+        <Route path="tab" element={<Tab />} />
+        <Route path="getall" element={<GetAll />} />
 
         {/* protected routes */}
         {/* <Route path="user" element={<User />} /> */}

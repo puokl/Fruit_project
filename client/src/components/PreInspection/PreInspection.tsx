@@ -1,7 +1,16 @@
 import { useState } from "react";
-import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface FormData {
   inspection_date: string;
@@ -23,6 +32,7 @@ const PreInspection: React.FC = () => {
     Record<string, string>
   >({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   //SECTION -
   console.log("validationErrors", validationErrors);
@@ -78,7 +88,11 @@ const PreInspection: React.FC = () => {
   };
 
   return (
-    <Box maxWidth="400px" margin="0 auto">
+    <Box
+      maxW={isMobile ? "100%" : "40vw"}
+      mx={isMobile ? 20 : "auto"}
+      textAlign="center"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
           <FormLabel>Inspection Date</FormLabel>
@@ -86,7 +100,7 @@ const PreInspection: React.FC = () => {
             type="date"
             {...register("inspection_date", { required: true })}
           />
-
+          <FormHelperText>Enter a percentage value (e.g., 5.5)</FormHelperText>
           {errors.inspection_date && <span>Inspection date is required</span>}
         </FormControl>
 
@@ -94,7 +108,10 @@ const PreInspection: React.FC = () => {
           <FormLabel>Container</FormLabel>
           <Input
             type="text"
-            {...register("container", { required: true, maxLength: 20 })}
+            {...register("container", {
+              required: true,
+              maxLength: { value: 20, message: "Max 20 characters" },
+            })}
           />
           {errors.vessel && <span>Field is too long. Max 20 characters</span>}
         </FormControl>
@@ -166,6 +183,9 @@ const PreInspection: React.FC = () => {
         </Button>
       </form>
       {message && <p>{message}</p>}
+      <Link to="../qcinspection">
+        <Button>Continue</Button>
+      </Link>
     </Box>
   );
 };

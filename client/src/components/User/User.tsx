@@ -1,14 +1,25 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 interface FormData {
   inspector_name: string;
   fruit: string;
 }
-const CreateUser: React.FC = () => {
+const User: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<FormData>();
   const [message, setMessage] = useState<string>("");
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   const onSubmit: SubmitHandler<FormData> = async (data: {
     inspector_name: string;
@@ -29,29 +40,36 @@ const CreateUser: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Add User</h2>
+    <Box
+      maxW={isMobile ? "100%" : "40vw"}
+      mx={isMobile ? 20 : "auto"}
+      textAlign="center"
+    >
+      <Text as="h2" fontSize="xl" mb={4}>
+        Add User
+      </Text>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>
-            Inspector Name:
-            <input
-              type="text"
-              {...register("inspector_name", { required: true })}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Fruit:
-            <input type="text" {...register("fruit", { required: true })} />
-          </label>
-        </div>
-        <button type="submit">Add User</button>
+        <FormControl mb={4}>
+          <FormLabel>Inspector Name:</FormLabel>
+          <Input
+            type="text"
+            {...register("inspector_name", { required: true })}
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Fruit:</FormLabel>
+          <Input type="text" {...register("fruit", { required: true })} />
+        </FormControl>
+        <Button type="submit" colorScheme="blue">
+          Add User
+        </Button>
       </form>
-      {message && <p>{message}</p>}
-    </div>
+      {message && <Text mt={4}>{message}</Text>}
+      <Link to="../preinspection">
+        <Button>Continue</Button>
+      </Link>
+    </Box>
   );
 };
 
-export default CreateUser;
+export default User;

@@ -10,8 +10,10 @@ import {
   Spacer,
   NumberInput,
   NumberInputField,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 type FormValues = {
   pallet_number: string;
@@ -73,13 +75,13 @@ const formControls = [
   { label: "Open Injury", name: "open_injury", type: "number" },
   { label: "Scissor Damage", name: "scissor_damage", type: "number" },
   {
-    label: "russet_greater_than_4_cm",
+    label: "Russet > 4 cm",
     name: "russet_greater_than_4_cm",
     type: "number",
   },
   { label: "Insect Damage", name: "insect_damage", type: "number" },
-  { label: "sunburn", name: "sunburn", type: "number" },
-  { label: "deformed", name: "deformed", type: "number" },
+  { label: "Sunburn", name: "sunburn", type: "number" },
+  { label: "Deformed", name: "deformed", type: "number" },
   {
     label: "Inspected Boxes",
     name: "inspected_boxes",
@@ -93,6 +95,7 @@ const QcInspection: React.FC = () => {
 
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   console.log("isLoading", isLoading);
 
@@ -140,7 +143,11 @@ const QcInspection: React.FC = () => {
   };
 
   return (
-    <Box maxWidth="400px" margin="0 auto">
+    <Box
+      maxW={isMobile ? "100%" : "40vw"}
+      mx={isMobile ? 20 : "auto"}
+      textAlign="center"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4}>
           {formControls.map((control) => (
@@ -170,6 +177,12 @@ const QcInspection: React.FC = () => {
         <Button type="submit">Submit</Button>
       </form>
       {message && <p>{message}</p>}
+      <Link to="../">
+        <Button>To Homepage</Button>
+      </Link>
+      <Link to="../getall">
+        <Button>check data</Button>
+      </Link>
     </Box>
   );
 };

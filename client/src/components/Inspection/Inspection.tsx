@@ -8,6 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface FormData {
   InspectionDate: Date;
@@ -43,7 +44,7 @@ const PreInspectionForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing={4}>
+      <VStack spacing={4} align="center" maxW="50vw" mx="auto">
         <FormControl>
           <FormLabel htmlFor="inspectionDate">Inspection Date</FormLabel>
           <Input
@@ -109,6 +110,9 @@ const PreInspectionForm = () => {
         >
           Create Table Entry
         </Button>
+        <Link to="../qcinspection">
+          <Button>Continue</Button>
+        </Link>
       </VStack>
     </form>
   );
