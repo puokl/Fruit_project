@@ -2,7 +2,7 @@ const db = require("../db");
 
 // Create a "inspections" table if it doesn't exist
 db.query(
-  `CREATE TABLE IF NOT EXISTS test_2 (
+  `CREATE TABLE IF NOT EXISTS pre_inspection (
     idinspection SERIAL PRIMARY KEY,
     inspection_date DATE NOT NULL,
     container VARCHAR(20) NOT NULL,
@@ -18,14 +18,14 @@ db.query(
   )`,
   (err, result) => {
     if (err) {
-      console.error('Error creating "test_2" table', err.stack);
+      console.error('Error creating "pre_inspection" table', err.stack);
     } else {
-      console.log('Table "test_2" created successfully');
+      console.log('Table "pre_inspection" created successfully');
     }
   }
 );
 
-const addInspection = async (req, res) => {
+const addPreInspection = async (req, res) => {
   const {
     inspection_date,
     container,
@@ -49,7 +49,7 @@ const addInspection = async (req, res) => {
 
   try {
     await db.query(
-      `INSERT INTO test_2 (
+      `INSERT INTO pre_inspection (
         inspection_date,
         container,
         exporter,
@@ -83,6 +83,25 @@ const addInspection = async (req, res) => {
   }
 };
 
+const getLastPreInspection = async (req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT * FROM pre_inspection ORDER BY inspection_date DESC LIMIT 1`
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "No inspections found." });
+    }
+
+    const lastInspection = result.rows[0];
+    res.status(200).json(lastInspection);
+  } catch (err) {
+    console.error("Error fetching the last inspection:", err.message);
+    res.status(500).json({ error: "Error fetching the last inspection." });
+  }
+};
+
 module.exports = {
-  addInspection,
+  addPreInspection,
+  getLastPreInspection,
 };

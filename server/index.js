@@ -18,9 +18,16 @@ const {
   getAllUsers,
 } = require("./controller/userController");
 const {
-  addInspection,
+  addPreInspection,
+  getLastPreInspection,
   // deleteTable,
 } = require("./controller/preInspectionController");
+const {
+  getAllLatestData,
+  deleteLatestData,
+  getSpecificRowData,
+} = require("./controller/allData");
+const { addQcInspection } = require("./controller/qcinspectionController");
 
 app.use(express.json());
 app.use(helmet());
@@ -40,13 +47,19 @@ app.delete("/api/fruits", deleteAllFruits);
 app.delete("/api/fruits/:id", deleteFruit);
 app.put("/api/fruits/:id", updateFruit);
 
-app.post("/api/users", addUser);
 app.get("/api/users", getAllUsers);
 
 app.delete("/api/users", deleteAllUsers);
 
-app.post("/api/preinspection", addInspection);
-// app.delete("/api/delete", deleteTable);
+app.post("/api/users", addUser);
+app.post("/api/preinspection", addPreInspection);
+app.post("/api/qcinspection", addQcInspection);
+
+// app.get("/api/users");
+app.get("/api/preinspection", getLastPreInspection);
+app.get("/api/getall", getAllLatestData);
+app.delete("/api/getall", deleteLatestData);
+app.get("/api/getone/:id", getSpecificRowData);
 
 //SECTION -
 

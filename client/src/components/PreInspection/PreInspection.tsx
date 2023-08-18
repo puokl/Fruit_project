@@ -7,24 +7,12 @@ import {
   Input,
   FormHelperText,
   useMediaQuery,
+  Flex,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
-interface FormData {
-  inspection_date: string;
-  container: string;
-  exporter: string;
-  importer: string;
-  vessel: string;
-  arrival_date: string | null;
-  o2_level_percent: number;
-  co2_level_percent: number;
-  pulp_temp_c: number;
-  atmosphere: string;
-  etd: string | null;
-}
+import { PreInspectionType } from "../../types/InspectionType";
+import { useNavigate, Link } from "react-router-dom";
 
 const PreInspection: React.FC = () => {
   const [message, setMessage] = useState<string>("");
@@ -33,6 +21,7 @@ const PreInspection: React.FC = () => {
   >({});
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const navigate = useNavigate();
 
   //SECTION -
   console.log("validationErrors", validationErrors);
@@ -41,10 +30,11 @@ const PreInspection: React.FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<PreInspectionType>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: PreInspectionType) => {
     setIsLoading(true);
 
     data.o2_level_percent = parseFloat(data.o2_level_percent.toString());
@@ -77,6 +67,11 @@ const PreInspection: React.FC = () => {
       );
       setMessage("Inspection added successfully.");
       setValidationErrors({});
+      reset();
+
+      setTimeout(() => {
+        navigate("/qcinspection");
+      }, 2000);
     } catch (error: any) {
       console.error("Error:", error);
       console.log("errors", errors);
@@ -92,6 +87,7 @@ const PreInspection: React.FC = () => {
       maxW={isMobile ? "100%" : "40vw"}
       mx={isMobile ? 20 : "auto"}
       textAlign="center"
+      mt={4}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl isRequired>
@@ -100,7 +96,6 @@ const PreInspection: React.FC = () => {
             type="date"
             {...register("inspection_date", { required: true })}
           />
-          <FormHelperText>Enter a percentage value (e.g., 5.5)</FormHelperText>
           {errors.inspection_date && <span>Inspection date is required</span>}
         </FormControl>
 
@@ -147,13 +142,23 @@ const PreInspection: React.FC = () => {
         </FormControl>
 
         <FormControl mt={4}>
-          <FormLabel>O2 Level (%)</FormLabel>
+          <Flex justifyContent="space-between" alignItems={"baseline"}>
+            <FormLabel>O2 Level (%)</FormLabel>
+            <FormHelperText>
+              Enter a percentage value (e.g., 5.5)
+            </FormHelperText>
+          </Flex>
           <Input type="number" step="0.1" {...register("o2_level_percent")} />
           {errors.o2_level_percent && <span>Something went wrong here</span>}
         </FormControl>
 
         <FormControl mt={4}>
-          <FormLabel>CO2 Level (%)</FormLabel>
+          <Flex justifyContent="space-between" alignItems={"baseline"}>
+            <FormLabel>CO2 Level (%)</FormLabel>
+            <FormHelperText>
+              Enter a percentage value (e.g., 5.5)
+            </FormHelperText>
+          </Flex>
           <Input type="number" step="0.1" {...register("co2_level_percent")} />
           {errors.co2_level_percent && <span>Something went wrong here</span>}
         </FormControl>
@@ -178,7 +183,7 @@ const PreInspection: React.FC = () => {
           {errors.etd && <span>Something went wrong here</span>}
         </FormControl>
 
-        <Button type="submit" mt={4} colorScheme="teal">
+        <Button type="submit" my={4} colorScheme="teal">
           Add Inspection
         </Button>
       </form>

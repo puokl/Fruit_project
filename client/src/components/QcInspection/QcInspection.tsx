@@ -13,30 +13,8 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
-type FormValues = {
-  pallet_number: string;
-  caliber: string;
-  box_net_weight_g?: number;
-  grower: string;
-  grw_boxes_per_pallet: number;
-  total_boxes_per_pallet: number;
-  packing_date?: string | null;
-  peduncular_mold?: number;
-  decay?: number;
-  soft?: number;
-  dehydrated?: number;
-  cold_damage?: number;
-  bruises?: number;
-  open_injury?: number;
-  scissor_damage?: number;
-  russet_greater_than_4_cm?: number;
-  insect_damage?: number;
-  sunburn?: number;
-  deformed?: number;
-  inspected_boxes: number;
-};
+import { QcInspectionType } from "../../types/InspectionType";
+import { useNavigate, Link } from "react-router-dom";
 
 function parseAndCheckNaN(value: string | number | undefined): number {
   const parsedValue = parseFloat(value?.toString() || "");
@@ -44,6 +22,12 @@ function parseAndCheckNaN(value: string | number | undefined): number {
 }
 
 const formControls = [
+  {
+    label: "Internal Pallet Number",
+    name: "int_pallet_nr",
+    type: "number",
+    required: true,
+  },
   {
     label: "Pallet Number",
     name: "pallet_number",
@@ -91,21 +75,23 @@ const formControls = [
 ];
 
 const QcInspection: React.FC = () => {
-  // function QcInspection() {
-
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+
+  const navigate = useNavigate();
 
   console.log("isLoading", isLoading);
 
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<QcInspectionType>();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<QcInspectionType> = async (data) => {
+    data.int_pallet_nr = parseAndCheckNaN(data.int_pallet_nr);
     data.box_net_weight_g = parseAndCheckNaN(data.box_net_weight_g);
     data.grw_boxes_per_pallet = parseAndCheckNaN(data.grw_boxes_per_pallet);
     data.total_boxes_per_pallet = parseAndCheckNaN(data.total_boxes_per_pallet);
@@ -125,7 +111,6 @@ const QcInspection: React.FC = () => {
     data.deformed = parseAndCheckNaN(data.deformed);
     data.inspected_boxes = parseAndCheckNaN(data.inspected_boxes);
 
-    // Handle form submission here
     console.log(data);
     try {
       await axios.post(
@@ -133,6 +118,11 @@ const QcInspection: React.FC = () => {
         data
       );
       setMessage("Inspection added successfully.");
+      reset();
+
+      setTimeout(() => {
+        navigate("/getall");
+      }, 2000);
     } catch (error: any) {
       console.error("Error:", error);
       console.log("errors", errors);
@@ -147,6 +137,7 @@ const QcInspection: React.FC = () => {
       maxW={isMobile ? "100%" : "40vw"}
       mx={isMobile ? 20 : "auto"}
       textAlign="center"
+      mt={4}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <VStack spacing={4}>
@@ -156,16 +147,16 @@ const QcInspection: React.FC = () => {
               {control.type === "number" ? (
                 <NumberInput>
                   <NumberInputField
-                    {...register(control.name as keyof FormValues)}
+                    {...register(control.name as keyof QcInspectionType)}
                   />
                 </NumberInput>
               ) : (
                 <Input
                   type={control.type}
-                  {...register(control.name as keyof FormValues)}
+                  {...register(control.name as keyof QcInspectionType)}
                 />
               )}
-              {errors[control.name as keyof FormValues] && (
+              {errors[control.name as keyof QcInspectionType] && (
                 <span>{`${control.label} is required`}</span>
               )}
             </FormControl>
@@ -174,11 +165,13 @@ const QcInspection: React.FC = () => {
 
         <Spacer height={4} />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" my={4}>
+          Submit
+        </Button>
       </form>
       {message && <p>{message}</p>}
       <Link to="../getall">
-        <Button>check data</Button>
+        <Button>Continue</Button>
       </Link>
     </Box>
   );

@@ -19,12 +19,18 @@ export default function Layout() {
 
   return (
     <Box>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4} h="10vh">
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        px={4}
+        h="10vh"
+        py={1}
+      >
         <Flex
           h={16}
           alignItems={"center"}
           justifyContent={"space-between"}
           w={"90vw"}
+          mx="auto"
         >
           <Link to="/">
             <Box>Fruit Team</Box>

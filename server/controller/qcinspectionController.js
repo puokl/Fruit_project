@@ -1,10 +1,12 @@
 const db = require("../db");
 
 // Create a "inspections" table if it doesn't exist
+// temporary change to int_pallet_nr SERIAL, should adjust to db structure
+// for presentation reason it need to be inserted manually
 db.query(
-  `CREATE TABLE IF NOT EXISTS test_3 (
-    idinspection INTEGER REFERENCES test_1(idinspection),
-    int_pallet_nr SERIAL PRIMARY KEY,
+  `CREATE TABLE IF NOT EXISTS qc_inspection (
+    idinspection SERIAL PRIMARY KEY,
+    int_pallet_nr VARCHAR(25) NOT NULL,
     pallet_number VARCHAR(25) NOT NULL,
     caliber VARCHAR(10) NOT NULL,
     box_net_weight_g INTEGER,
@@ -35,8 +37,9 @@ db.query(
   }
 );
 
-const addQCInspection = async (req, res) => {
+const addQcInspection = async (req, res) => {
   const {
+    int_pallet_nr,
     pallet_number,
     caliber,
     box_net_weight_g,
@@ -61,6 +64,7 @@ const addQCInspection = async (req, res) => {
 
   console.log("req.body", req.body);
   if (
+    !int_pallet_nr ||
     !pallet_number ||
     !caliber ||
     !grower ||
@@ -75,8 +79,8 @@ const addQCInspection = async (req, res) => {
 
   try {
     await db.query(
-      `INSERT INTO test_3 (
-        idinspection,
+      `INSERT INTO qc_inspection (
+        int_pallet_nr,
         pallet_number,
         caliber,
         box_net_weight_g,
@@ -97,9 +101,9 @@ const addQCInspection = async (req, res) => {
         sunburn,
         deformed,
         inspected_boxes
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)`,
       [
-        idinspection,
+        int_pallet_nr,
         pallet_number,
         caliber,
         box_net_weight_g,
@@ -130,5 +134,5 @@ const addQCInspection = async (req, res) => {
 };
 
 module.exports = {
-  addQCInspection,
+  addQcInspection,
 };

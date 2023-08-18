@@ -10,18 +10,16 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { UserType } from "../../types/InspectionType";
+import { useNavigate, Link } from "react-router-dom";
 
-interface FormData {
-  inspector_name: string;
-  fruit: string;
-}
 const User: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  const { register, handleSubmit, reset } = useForm<UserType>();
   const [message, setMessage] = useState<string>("");
   const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormData> = async (data: {
+  const onSubmit: SubmitHandler<UserType> = async (data: {
     inspector_name: string;
     fruit: string;
   }) => {
@@ -32,7 +30,11 @@ const User: React.FC = () => {
       });
 
       setMessage("User added successfully.");
-      reset(); // Reset the form fields after successful submission
+      reset();
+
+      setTimeout(() => {
+        navigate("/preinspection");
+      }, 2000);
     } catch (error) {
       console.error("Error:", error);
       setMessage("Failed to add user.");

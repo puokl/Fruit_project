@@ -1,6 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, Input, VStack, Box, Text, Divider } from "@chakra-ui/react";
+import {
+  Button,
+  Input,
+  VStack,
+  Box,
+  Text,
+  Divider,
+  Flex,
+} from "@chakra-ui/react";
 
 type GetOneProps = {};
 
@@ -30,13 +38,20 @@ const GetOne: React.FC<GetOneProps> = () => {
   };
 
   return (
-    <VStack spacing={4}>
+    <VStack
+      spacing={4}
+      align="stretch"
+      maxW={{ base: "100%", md: "50vw" }}
+      mx={{ base: "10px", md: "auto" }}
+    >
       <Input
         placeholder="Enter row number"
         value={rowNumber}
         onChange={(e) => setRowNumber(parseInt(e.target.value, 10) || "")}
         type="number"
         min={1}
+        maxW={"40%"}
+        my={4}
       />
       <Button onClick={handleFetchRowData}>Fetch Row Data</Button>
 
@@ -46,9 +61,13 @@ const GetOne: React.FC<GetOneProps> = () => {
           <Divider my={2} />
           {Object.entries(tableData as { [key: string]: unknown }).map(
             ([key, value]) => (
-              <Text key={key}>
-                {key}: {String(value)}
-              </Text>
+              //   <Text key={key}>
+              //     {key}: {String(value)}
+              //   </Text>
+              <Flex key={key} justifyContent="space-between">
+                <Text fontWeight="bold">{key}:</Text>
+                <Text mr={10}>{String(value)}</Text>
+              </Flex>
             )
           )}
         </Box>
