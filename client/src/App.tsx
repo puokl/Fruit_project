@@ -13,13 +13,13 @@ import Tableau from "./pages/Tableau";
 import Tab from "./pages/Tab";
 import Inspect from "./pages/Inspect";
 import GetAll from "./pages/GetAll";
+import GetOne from "./pages/GetOne";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-
         {/* public routes */}
         <Route path="user" element={<CreateUser />} />
         <Route path="inspection" element={<Inspect />} />
@@ -30,11 +30,10 @@ function App() {
         <Route path="test" element={<Test />} />
         <Route path="tableau" element={<Tableau />} />
         <Route path="tab" element={<Tab />} />
-        <Route path="getall" element={<GetAll />} />
-
+        <Route path="getall" element={<GetAll />} />{" "}
+        <Route path="getone" element={<GetOne />} />
         {/* protected routes */}
         {/* <Route path="user" element={<User />} /> */}
-
         {/* catch all */}
         <Route path="*" element={<Missing />} />
       </Route>

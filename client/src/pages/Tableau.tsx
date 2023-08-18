@@ -20,7 +20,7 @@ const Tableau: React.FC<TableauProps> = () => {
         vizElement.setAttribute("id", "tableau-viz");
         vizElement.setAttribute(
           "src",
-          "https://eu-west-1a.online.tableau.com/t/fruitqc/views/QCFruits2/A"
+          "https://eu-west-1a.online.tableau.com/t/fruitqc/views/QCF_CAB/A"
         );
         vizElement.setAttribute("hide-tabs", "");
         vizElement.setAttribute("toolbar", "bottom");
@@ -47,7 +47,7 @@ const Tableau: React.FC<TableauProps> = () => {
 
   return (
     <Box>
-      <Box id="tableau-viz-container" w="100vw" h="90vh"></Box>
+      <Box id="tableau-viz-container" w="100%" h="100%"></Box>
     </Box>
   );
 };

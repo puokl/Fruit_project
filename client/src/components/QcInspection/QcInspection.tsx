@@ -22,7 +22,7 @@ type FormValues = {
   grower: string;
   grw_boxes_per_pallet: number;
   total_boxes_per_pallet: number;
-  packing_date?: string;
+  packing_date?: string | null;
   peduncular_mold?: number;
   decay?: number;
   soft?: number;
@@ -177,9 +177,6 @@ const QcInspection: React.FC = () => {
         <Button type="submit">Submit</Button>
       </form>
       {message && <p>{message}</p>}
-      <Link to="../">
-        <Button>To Homepage</Button>
-      </Link>
       <Link to="../getall">
         <Button>check data</Button>
       </Link>

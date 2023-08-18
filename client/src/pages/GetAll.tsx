@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { VStack, Divider, Text, Box, Button } from "@chakra-ui/react";
+import {
+  VStack,
+  Divider,
+  Text,
+  Box,
+  Button,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 type GetAllProps = {};
@@ -28,6 +35,7 @@ const GetAll: React.FC<GetAllProps> = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile] = useMediaQuery("(max-width: 768px)");
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -56,7 +64,12 @@ const GetAll: React.FC<GetAllProps> = () => {
 
   return (
     <>
-      <VStack spacing={4} align="stretch">
+      <VStack
+        spacing={4}
+        align="stretch"
+        maxW={{ base: "100%", md: "50vw" }}
+        mx={{ base: "10px", md: "auto" }}
+      >
         <Box p={4} borderWidth={1} borderRadius="md">
           <Text fontSize="xl">Test 1 Data</Text>
           <Divider my={2} />
@@ -102,7 +115,12 @@ const GetAll: React.FC<GetAllProps> = () => {
       <Link to="/">
         <Button>Continue</Button>
       </Link>
-      <Button colorScheme="red" onClick={handleDelete} isLoading={isLoading}>
+      <Button
+        colorScheme="red"
+        onClick={handleDelete}
+        isLoading={isLoading}
+        mb={isMobile ? 4 : 0}
+      >
         Delete Latest Data
       </Button>
     </>
