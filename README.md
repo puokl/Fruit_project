@@ -1,5 +1,6 @@
 # Fruit Inspection project
 
+DEMO: https://fruit-project.vercel.app/
 
 ## Overview
 In the dynamic landscape of international trade, ensuring the quality of imported and exported goods is crucial. 
