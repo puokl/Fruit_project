@@ -10,6 +10,13 @@ Our project centers around addressing the quality control challenges faced by im
 Our goal was to improve the inspection process by developing a user-friendly software application that leverages mobile devices, such as smartphones and tablets.
 
 
+## Table of Contents
+
+- [Technologies](#technologies)
+- [Features](#features)
+- [AdditionalInfo](#additionalinfo)
+
+
 ## Technologies
 - PostgreSQL
 - ElephantSQL
@@ -28,4 +35,8 @@ Our Minimum Viable Product (MVP) includes the following fundamental features:
 - Integration with Tableau: To elevate the power of the collected data, our software seamlessly integrates with Tableau, a leading data visualization platform.
 
 
+## AdditionalInfo
+- We are using ElephantSQL server
+- Inside the server/seeder folder you can find an example of the data structure in form of csv file and database tables
+- The seeder.js file was used to insert the 5000 rows of data into the database 
 
